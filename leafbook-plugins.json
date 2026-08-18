@@ -1,0 +1,23 @@
+[
+  {
+    "id": "openlibrary.fiction",
+    "name": "Open Library Fiction",
+    "site": "https://openlibrary.org",
+    "lang": "English",
+    "version": "0.1.0",
+    "url": "./plugins/openlibrary.js",
+    "iconUrl": "./assets/leafbook-icon.png",
+    "api": "leafbook-source-v1",
+    "sha256": "1b5b87b60b68cf438a7796776d55f4f3ffc5791c43d317afa7e17b82bd59efc1"
+  },
+  {
+    "id": "vnexpress.rss",
+    "name": "VnExpress RSS",
+    "site": "https://vnexpress.net/rss",
+    "lang": "Tiếng Việt",
+    "version": "0.1.0",
+    "url": "./plugins/vnexpress.js",
+    "api": "leafbook-source-v1",
+    "sha256": "68a38f8541ce7a4c57f0800cdb527867622185a88388476b70961b05e0d703f1"
+  }
+]
