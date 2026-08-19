@@ -19,5 +19,15 @@
     "url": "./plugins/vnexpress.js",
     "api": "leafbook-source-v1",
     "sha256": "243b430b45070b587ddbb6b64fbda5f1649f5dd585509dbf04a40efda0e1d16e"
+  },
+  {
+    "id": "wattpad.stories",
+    "name": "Wattpad Stories",
+    "site": "https://www.wattpad.com",
+    "lang": "Multi",
+    "version": "0.1.0",
+    "url": "./plugins/wattpad.js",
+    "api": "leafbook-source-v1",
+    "sha256": "72cc7da4f5e3fa746de7f70b6be5dec83fe830711f9528e21bdf152e2b8f03de"
   }
 ]
