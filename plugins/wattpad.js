@@ -7,7 +7,11 @@ globalThis.LeafBookPlugin = Object.freeze({
     const url = "https://www.wattpad.com/api/v3/stories?" +
       "filter=hot&limit=20&offset=" + offset +
       "&fields=id,title,cover,user(name),numParts,completed,description";
-    const payload = JSON.parse(LeafBook.httpGet(url));
+    let raw;
+    try { raw = LeafBook.httpGet(url); } catch (e) {
+      throw new Error("Không thể kết nối Wattpad. Vui lòng kiểm tra kết nối mạng hoặc sử dụng VPN.");
+    }
+    const payload = JSON.parse(raw);
 
     return (payload.stories || []).flatMap((story) => {
       const name = String(story.title || "").trim();
@@ -27,7 +31,11 @@ globalThis.LeafBookPlugin = Object.freeze({
     const storyUrl = "https://www.wattpad.com/api/v3/stories/" + storyId +
       "?fields=id,title,cover,user(name),description,numParts,completed," +
       "parts(id,title,length,url)";
-    const story = JSON.parse(LeafBook.httpGet(storyUrl));
+    let raw;
+    try { raw = LeafBook.httpGet(storyUrl); } catch (e) {
+      throw new Error("Không thể kết nối Wattpad. Vui lòng kiểm tra kết nối mạng hoặc sử dụng VPN.");
+    }
+    const story = JSON.parse(raw);
     const title = String(story.title || "Wattpad").trim();
     const author = (story.user && story.user.name) || "Unknown";
     const parts = story.parts || [];
