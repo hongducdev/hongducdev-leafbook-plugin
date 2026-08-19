@@ -11,7 +11,7 @@
 ## Plugin hiện có
 
 - **Open Library Fiction** — khám phá sách phổ biến từ Open Library, có phân trang và ảnh bìa.
-- **VnExpress RSS** — đọc kênh Tin mới nhất của VnExpress và mở bài viết trong LeafBook.
+- **VnExpress RSS** — chạm bài để đọc ngay, có nội dung và ảnh trong chính trình đọc sách của LeafBook.
 
 Mỗi plugin là một script độc lập triển khai contract `leafbook-source-v1`. Catalog khai báo URL tương đối
 và SHA-256 riêng cho từng script.
@@ -28,6 +28,7 @@ và SHA-256 riêng cho từng script.
 3. Chọn **Kiểm tra kho**, thêm kho rồi cài từng plugin mong muốn.
 
 LeafBook tự tìm `leafbook-plugins.json`, hiển thị toàn bộ plugin và xác minh SHA-256 trước khi cài.
+Các lần sau, dùng **Kiểm tra cập nhật plugin** để tải lại catalog và cập nhật plugin có phiên bản mới.
 
 ## Phát triển
 

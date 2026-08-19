@@ -15,9 +15,9 @@
     "name": "VnExpress RSS",
     "site": "https://vnexpress.net/rss",
     "lang": "Tiếng Việt",
-    "version": "0.1.0",
+    "version": "0.2.1",
     "url": "./plugins/vnexpress.js",
     "api": "leafbook-source-v1",
-    "sha256": "68a38f8541ce7a4c57f0800cdb527867622185a88388476b70961b05e0d703f1"
+    "sha256": "243b430b45070b587ddbb6b64fbda5f1649f5dd585509dbf04a40efda0e1d16e"
   }
 ]
