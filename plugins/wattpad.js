@@ -5,8 +5,7 @@ globalThis.LeafBookPlugin = Object.freeze({
     const safePage = Math.max(1, Math.floor(Number(page) || 1));
     const offset = (safePage - 1) * 20;
     const url = "https://www.wattpad.com/api/v3/stories?" +
-      "filter=hot&limit=20&offset=" + offset +
-      "&fields=id,title,cover,user(name),numParts,completed,description";
+      "filter=hot&limit=20&offset=" + offset;
     let raw;
     try { raw = LeafBook.httpGet(url); } catch (e) {
       throw new Error("Không thể kết nối Wattpad. Hãy thử:\n" +
@@ -16,19 +15,23 @@ globalThis.LeafBookPlugin = Object.freeze({
         "4. Hoặc sử dụng VPN");
     }
     const payload = JSON.parse(raw);
+    const stories = payload.stories;
+    if (!Array.isArray(stories) || stories.length === 0) {
+      throw new Error("Wattpad không trả về truyện. Hãy thử lại sau hoặc kiểm tra kết nối mạng.");
+    }
 
-    return (payload.stories || []).flatMap((story) => {
+    return stories.flatMap((story) => {
       const name = String(story.title || "").trim();
       const id = story.id;
       if (!name || !id) return [];
-      const path = "wattpad://story/" + id;
+      const path = String(story.url || ("https://www.wattpad.com/story/" + id)).trim();
       const cover = story.cover || undefined;
       return [{ name, path, cover }];
     });
   },
 
   article(path) {
-    const storyMatch = String(path).match(/^wattpad:\/\/story\/(\d+)$/);
+    const storyMatch = String(path).match(/(?:^wattpad:\/\/story\/|wattpad\.com\/story\/)(\d+)/);
     if (!storyMatch) throw new Error("Liên kết Wattpad không hợp lệ");
     const storyId = storyMatch[1];
 
@@ -46,7 +49,10 @@ globalThis.LeafBookPlugin = Object.freeze({
     const story = JSON.parse(raw);
     const title = String(story.title || "Wattpad").trim();
     const author = (story.user && story.user.name) || "Unknown";
-    const parts = story.parts || [];
+    const parts = (story.parts || []).filter((part) => part && part.id && !part.deleted && !part.draft);
+    if (parts.length === 0) {
+      throw new Error("Không tìm thấy chương nào trong truyện này.");
+    }
 
     const htmlParts = [];
     htmlParts.push('<div class="story-meta">');
@@ -59,12 +65,22 @@ globalThis.LeafBookPlugin = Object.freeze({
 
     for (let i = 0; i < parts.length; i++) {
       const part = parts[i];
-      const chapterText = LeafBook.httpGet("https://www.wattpad.com/apiv2/storytext?id=" + part.id);
+      let chapterText;
+      try {
+        chapterText = LeafBook.httpGet("https://www.wattpad.com/apiv2/storytext?id=" + part.id);
+      } catch (e) {
+        chapterText = "<p><em>Không thể tải chương này.</em></p>";
+      }
+      if (!String(chapterText || "").trim()) {
+        chapterText = "<p><em>Chương này không có nội dung.</em></p>";
+      }
       htmlParts.push("<h2>Chương " + (i + 1) + ": " + (part.title || "") + "</h2>");
       htmlParts.push(chapterText);
       htmlParts.push("<hr/>");
     }
 
-    return { title: title + " - " + author, content: htmlParts.join("\n") };
+    const content = htmlParts.join("\n");
+    if (!content.trim()) throw new Error("Plugin chưa trả về nội dung truyện.");
+    return { title: title + " - " + author, content };
   }
 });

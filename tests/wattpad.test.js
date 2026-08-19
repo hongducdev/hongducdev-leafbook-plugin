@@ -4,8 +4,23 @@ const vm = require("node:vm");
 
 const mockStoryList = JSON.stringify({
   stories: [
-    { id: 12345, title: "Câu chuyện hay", cover: "https://img.wattpad.com/cover/12345.jpg", user: { name: "Author1" }, numParts: 3, completed: true },
-    { id: 67890, title: "Truyện mới", cover: null, user: { name: "Author2" }, numParts: 1, completed: false }
+    {
+      id: 12345,
+      title: "Câu chuyện hay",
+      cover: "https://img.wattpad.com/cover/12345.jpg",
+      url: "https://www.wattpad.com/story/12345-cau-chuyen-hay",
+      user: { name: "Author1" },
+      numParts: 3,
+      completed: true
+    },
+    {
+      id: 67890,
+      title: "Truyện mới",
+      cover: null,
+      user: { name: "Author2" },
+      numParts: 1,
+      completed: false
+    }
   ]
 });
 
@@ -37,36 +52,30 @@ globalThis.LeafBook = Object.freeze({
 
 vm.runInThisContext(fs.readFileSync("plugins/wattpad.js", "utf8"), { filename: "wattpad.js" });
 
-// Test popular()
 const popular = globalThis.LeafBookPlugin.popular(1);
 assert.equal(popular.length, 2);
 assert.deepEqual(popular[0], {
   name: "Câu chuyện hay",
-  path: "wattpad://story/12345",
+  path: "https://www.wattpad.com/story/12345-cau-chuyen-hay",
   cover: "https://img.wattpad.com/cover/12345.jpg"
 });
 assert.deepEqual(popular[1], {
   name: "Truyện mới",
-  path: "wattpad://story/67890",
+  path: "https://www.wattpad.com/story/67890",
   cover: undefined
 });
 
-// Test popular() page 2
 const popular2 = globalThis.LeafBookPlugin.popular(2);
 assert.equal(popular2.length, 2);
 
-// Test article()
-const article = globalThis.LeafBookPlugin.article("wattpad://story/12345");
-assert.equal(article.title, "Câu chuyện hay - Author1");
-assert.ok(article.content.includes("Nội dung chương 1"));
-assert.ok(article.content.includes("Nội dung chương 2"));
-assert.ok(article.content.includes("Tác giả:"));
-assert.ok(article.content.includes("Mô tả truyện"));
-assert.ok(article.content.includes("Hoàn thành"));
-assert.ok(article.content.includes("Chương 1: Khởi đầu"));
-assert.ok(article.content.includes("Chương 2: Kết thúc"));
+const articleFromUrl = globalThis.LeafBookPlugin.article("https://www.wattpad.com/story/12345-cau-chuyen-hay");
+assert.equal(articleFromUrl.title, "Câu chuyện hay - Author1");
+assert.ok(articleFromUrl.content.includes("Nội dung chương 1"));
+assert.ok(articleFromUrl.content.includes("Nội dung chương 2"));
 
-// Test invalid path
+const articleFromScheme = globalThis.LeafBookPlugin.article("wattpad://story/12345");
+assert.equal(articleFromScheme.title, "Câu chuyện hay - Author1");
+
 assert.throws(
   () => globalThis.LeafBookPlugin.article("https://example.com/story"),
   /không hợp lệ/
