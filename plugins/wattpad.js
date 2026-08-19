@@ -9,7 +9,11 @@ globalThis.LeafBookPlugin = Object.freeze({
       "&fields=id,title,cover,user(name),numParts,completed,description";
     let raw;
     try { raw = LeafBook.httpGet(url); } catch (e) {
-      throw new Error("Không thể kết nối Wattpad. Vui lòng kiểm tra kết nối mạng hoặc sử dụng VPN.");
+      throw new Error("Không thể kết nối Wattpad. Hãy thử:\n" +
+        "1. Đổi DNS thành 1.1.1.1 (Cloudflare) hoặc 8.8.8.8 (Google)\n" +
+        "2. Trên Android: Cài đặt → Mạng → DNS riêng → nhập 1dot1dot1dot1.cloudflare-dns.com\n" +
+        "3. Trên iOS: Cài đặt → Wi-Fi → (i) → Cấu hình DNS → Thủ công → thêm 1.1.1.1\n" +
+        "4. Hoặc sử dụng VPN");
     }
     const payload = JSON.parse(raw);
 
@@ -33,7 +37,11 @@ globalThis.LeafBookPlugin = Object.freeze({
       "parts(id,title,length,url)";
     let raw;
     try { raw = LeafBook.httpGet(storyUrl); } catch (e) {
-      throw new Error("Không thể kết nối Wattpad. Vui lòng kiểm tra kết nối mạng hoặc sử dụng VPN.");
+      throw new Error("Không thể kết nối Wattpad. Hãy thử:\n" +
+        "1. Đổi DNS thành 1.1.1.1 (Cloudflare) hoặc 8.8.8.8 (Google)\n" +
+        "2. Trên Android: Cài đặt → Mạng → DNS riêng → nhập 1dot1dot1dot1.cloudflare-dns.com\n" +
+        "3. Trên iOS: Cài đặt → Wi-Fi → (i) → Cấu hình DNS → Thủ công → thêm 1.1.1.1\n" +
+        "4. Hoặc sử dụng VPN");
     }
     const story = JSON.parse(raw);
     const title = String(story.title || "Wattpad").trim();
