@@ -25,9 +25,9 @@
     "name": "Wattpad Stories",
     "site": "https://www.wattpad.com",
     "lang": "Multi",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "url": "./plugins/wattpad.js",
     "api": "leafbook-source-v1",
-    "sha256": "585c3d7bb2fb8e677760a60f0f7c97f10b80b64ea17e36b3dda26ff1b012140d"
+    "sha256": "46da01fd90a96041b23534af8ee61c5fb8f973f0436dac1fe7db6f603e47d436"
   }
 ]

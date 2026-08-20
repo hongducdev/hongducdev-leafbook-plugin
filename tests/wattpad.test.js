@@ -40,7 +40,10 @@ const mockStoryDetail = JSON.stringify({
 
 globalThis.LeafBook = Object.freeze({
   httpGet(url) {
-    if (url.startsWith("https://www.wattpad.com/api/v3/stories?")) return mockStoryList;
+    if (url.startsWith("https://www.wattpad.com/api/v3/stories?")) {
+      assert.match(url, /fields=stories\(id,title,cover,url\)/);
+      return mockStoryList;
+    }
     if (url.startsWith("https://www.wattpad.com/api/v3/stories/12345")) return mockStoryDetail;
     if (url === "https://www.wattpad.com/apiv2/storytext?id=111") return "<p>Nội dung chương 1</p>";
     if (url === "https://www.wattpad.com/apiv2/storytext?id=222") return "<p>Nội dung chương 2</p>";

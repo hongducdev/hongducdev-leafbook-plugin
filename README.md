@@ -12,6 +12,7 @@
 
 - **Open Library Fiction** — khám phá sách phổ biến từ Open Library, có phân trang và ảnh bìa.
 - **VnExpress RSS** — chạm bài để đọc ngay, có nội dung và ảnh trong chính trình đọc sách của LeafBook.
+- **Wattpad Stories** — khám phá truyện thịnh hành trên Wattpad với danh sách gọn, phân trang và ảnh bìa.
 
 Mỗi plugin là một script độc lập triển khai contract `leafbook-source-v1`. Catalog khai báo URL tương đối
 và SHA-256 riêng cho từng script.
@@ -37,6 +38,7 @@ git clone git@github.com:hongducdev/hongducdev-leafbook-plugin.git
 cd hongducdev-leafbook-plugin
 node tests/openlibrary.test.js
 node tests/vnexpress.test.js
+node tests/wattpad.test.js
 ```
 
 Sau khi sửa hoặc thêm script, cập nhật toàn bộ hash:

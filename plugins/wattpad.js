@@ -5,7 +5,8 @@ globalThis.LeafBookPlugin = Object.freeze({
     const safePage = Math.max(1, Math.floor(Number(page) || 1));
     const offset = (safePage - 1) * 20;
     const url = "https://www.wattpad.com/api/v3/stories?" +
-      "filter=hot&limit=20&offset=" + offset;
+      "filter=hot&limit=20&offset=" + offset +
+      "&fields=stories(id,title,cover,url)";
     let raw;
     try { raw = LeafBook.httpGet(url); } catch (e) {
       throw new Error("Không thể kết nối Wattpad. Hãy thử:\n" +
